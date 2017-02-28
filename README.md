@@ -12,7 +12,7 @@ Plugin setup with gradle >= 2.1:
 ```gradle
     
     plugins {
-      id "ajk.gradle.redis" version "0.0.2"
+      id "ajk.gradle.redis" version "0.0.3"
     }
 ``` 
 
@@ -25,7 +25,7 @@ Plugin setup with gradle <= 2.1:
             maven { url "http://dl.bintray.com/amirk/maven" }
         }
         dependencies {
-            classpath("ajk.gradle.redis:gradle-redis-plugin:0.0.2")
+            classpath("ajk.gradle.redis:gradle-redis-plugin:0.0.3")
         }
     }
 ```
