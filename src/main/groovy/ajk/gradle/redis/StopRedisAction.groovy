@@ -48,7 +48,7 @@ class StopRedisAction {
             }
         }
 
-        if(ant.properties['redisTimeout'] != null) {
+        if (ant.properties['redisTimeout'] != null) {
             println "${RED}* redis:$NORMAL could not stop Redis"
             println serr
             throw new RuntimeException("failed to stop Redis")
@@ -56,5 +56,8 @@ class StopRedisAction {
             println "${CYAN}* redis:$NORMAL ${GREEN}Redis on port $port has stopped$NORMAL"
         }
 
+        if (!pidFile.delete()) {
+            println "${YELLOW}* redis:$NORMAL warning - can't remove $pidFile"
+        }
     }
 }
