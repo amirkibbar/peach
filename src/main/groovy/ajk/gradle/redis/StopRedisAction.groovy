@@ -25,7 +25,7 @@ class StopRedisAction {
 
     void execute() {
         dataDir = dataDir ?: new File("$project.buildDir/redis")
-        def pidFile = new File(dataDir, "redis.image-id")
+        def pidFile = new File(project.buildDir, "redis.image-id")
 
         if (!pidFile.exists()) {
             println "${RED}* redis:$NORMAL couldn't find $pidFile, can't stop Redis without this file, please stop it manually"
@@ -53,7 +53,7 @@ class StopRedisAction {
             println serr
             throw new RuntimeException("failed to stop Redis")
         } else {
-            println "${CYAN}* redis:$NORMAL ${GREEN}Redis on port $port has stopped"
+            println "${CYAN}* redis:$NORMAL ${GREEN}Redis on port $port has stopped$NORMAL"
         }
 
     }

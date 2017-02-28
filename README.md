@@ -12,7 +12,7 @@ Plugin setup with gradle >= 2.1:
 ```gradle
     
     plugins {
-      id "ajk.gradle.redis" version "0.0.3"
+      id "ajk.gradle.redis" version "0.0.4"
     }
 ``` 
 
@@ -25,9 +25,11 @@ Plugin setup with gradle <= 2.1:
             maven { url "http://dl.bintray.com/amirk/maven" }
         }
         dependencies {
-            classpath("ajk.gradle.redis:gradle-redis-plugin:0.0.3")
+            classpath("ajk.gradle.redis:gradle-redis-plugin:0.0.4")
         }
     }
+    
+    apply plugin: 'ajk.gradle.redis'
 ```
 
 # Starting and stopping Redis during integration tests

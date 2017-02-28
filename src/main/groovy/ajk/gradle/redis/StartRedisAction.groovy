@@ -30,7 +30,7 @@ class StartRedisAction {
     void execute() {
         dataDir = dataDir ?: new File("$project.buildDir/redis")
 
-        def pidFile = new File(dataDir, "redis.image-id")
+        def pidFile = new File(project.buildDir, "redis.image-id")
         if (pidFile.exists()) {
             println "${YELLOW}* redis:$NORMAL Redis seems to be running, see Docker container id ${pidFile.text}"
             println "${YELLOW}* redis:$NORMAL please check $pidFile"
@@ -42,7 +42,10 @@ class StartRedisAction {
 
         println "${CYAN}* redis:$NORMAL starting Redis version '$redisVerion' on port $port using volume at $dataDir"
 
-        ant.delete(failonerror: true, dir: dataDir)
+        if(dataDir.exists()) {
+            ant.delete(failonerror: true, dir: dataDir)
+        }
+
         dataDir.mkdirs()
 
         def command = "docker run --rm -d -v $dataDir:/data -p $port:6379 redis:$redisVerion"
@@ -52,7 +55,7 @@ class StartRedisAction {
         proc.consumeProcessOutput(sout, serr)
         proc.waitForOrKill(60 * 1000)
 
-        sout >> pidFile
+        pidFile << sout
 
         println "${CYAN}* redis:$NORMAL waiting for Redis to start"
         ant.waitfor(maxwait: 1, maxwaitunit: "minute", timeoutproperty: "redisTimeout") {
@@ -64,7 +67,7 @@ class StartRedisAction {
             println serr
             throw new RuntimeException("failed to start Redis")
         } else {
-            println "${CYAN}* redis:$NORMAL ${GREEN}Redis is now up on port $port"
+            println "${CYAN}* redis:$NORMAL ${GREEN}Redis is now up on port $port$NORMAL"
         }
     }
 }
