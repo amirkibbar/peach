@@ -48,7 +48,7 @@ class StartRedisAction {
 
         dataDir.mkdirs()
 
-        def command = "docker run --rm -d -v $dataDir:/data -p $port:6379 redis:$redisVerion"
+        def command = "docker run --rm -d -v $dataDir:/data -p $port:6379 redis:$redisVerion redis-server --appendonly yes"
 
         def sout = new StringBuilder(), serr = new StringBuilder()
         def proc = command.execute()
