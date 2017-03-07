@@ -59,13 +59,16 @@ allow the user running it to issue the `docker` command without requiring `sudo`
                 port = 6379
             }
         }
+        
+        systemProperties = [
+            'server.redis.port': "6379"
+        ]
     }
     
     gradle.taskGraph.afterTask { Task task, TaskState taskState ->
         if (task.name == "integrationTests") {
             stopRedis {
                 port = 6379
-                dataDir = file("$buildDir/redis")
             }
         }
     }
