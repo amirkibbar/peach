@@ -28,17 +28,16 @@ class StartRedisAction {
     }
 
     void execute() {
-        dataDir = dataDir ?: new File("$project.buildDir/redis")
+        port = port ?: 6379
+        dataDir = dataDir ?: new File("$project.buildDir/redis-${port}")
+        redisVerion = redisVerion ?: 'latest'
 
-        def pidFile = new File(project.buildDir, "redis.image-id")
+        def pidFile = new File(project.buildDir, "redis-${port}.image-id")
         if (pidFile.exists()) {
             println "${YELLOW}* redis:$NORMAL Redis seems to be running, see Docker container id ${pidFile.text}"
             println "${YELLOW}* redis:$NORMAL please check $pidFile"
             return
         }
-
-        port = port ?: 6379
-        redisVerion = redisVerion ?: 'latest'
 
         println "${CYAN}* redis:$NORMAL starting Redis version '$redisVerion' on port $port using volume at $dataDir"
 

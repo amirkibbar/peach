@@ -12,7 +12,7 @@ Plugin setup with gradle >= 2.1:
 ```gradle
     
     plugins {
-      id "ajk.gradle.redis" version "0.0.6"
+      id "ajk.gradle.redis" version "0.0.8"
     }
 ``` 
 
@@ -25,7 +25,7 @@ Plugin setup with gradle <= 2.1:
             maven { url "http://dl.bintray.com/amirk/maven" }
         }
         dependencies {
-            classpath("ajk.gradle.redis:gradle-redis-plugin:0.0.6")
+            classpath("ajk.gradle.redis:gradle-redis-plugin:0.0.8")
         }
     }
     
@@ -50,14 +50,13 @@ allow the user running it to issue the `docker` command without requiring `sudo`
             startRedis {
 				redisVersion = "latest"
                 port = 6379
-				dataDir = file("$buildDir/redis")
+				dataDir = file("$buildDir/redis-$port")
             }
         }
     
         doLast {
             stopRedis {
                 port = 6379
-				dataDir = file("$buildDir/redis")
             }
         }
     }

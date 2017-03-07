@@ -9,10 +9,6 @@ import static ajk.gradle.redis.RedisPlugin.*
 class StopRedisAction {
     @Input
     @Optional
-    File dataDir
-
-    @Input
-    @Optional
     Integer port
 
     private AntBuilder ant
@@ -24,8 +20,8 @@ class StopRedisAction {
     }
 
     void execute() {
-        dataDir = dataDir ?: new File("$project.buildDir/redis")
-        def pidFile = new File(project.buildDir, "redis.image-id")
+        port = port ?: 6379
+        def pidFile = new File(project.buildDir, "redis-${port}.image-id")
 
         if (!pidFile.exists()) {
             println "${RED}* redis:$NORMAL couldn't find $pidFile, can't stop Redis without this file, please stop it manually"
@@ -38,8 +34,6 @@ class StopRedisAction {
         def proc = command.execute()
         proc.consumeProcessOutput(sout, serr)
         proc.waitForOrKill(60 * 1000)
-
-        port = port ?: 6379
 
         println "${CYAN}* redis:$NORMAL waiting for Redis to stop"
         ant.waitfor(maxwait: 1, maxwaitunit: "minute", timeoutproperty: "redisTimeout") {
