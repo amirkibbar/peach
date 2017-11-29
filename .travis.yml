@@ -7,6 +7,6 @@ jdk:
 
 before_install:
   - chmod +x gradlew
-  - mkdir ~/.gradle
+  - mkdir -p ~/.gradle
   - echo "bintrayUser=" > ~/.gradle/gradle.properties
   - echo "bintrayPass=" >> ~/.gradle/gradle.properties
