@@ -111,7 +111,7 @@ pluginBundle {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "3.3"
+    gradleVersion = project."gradle.version"
 }
 
 bintrayUpload.dependsOn = [sourcesJar]
