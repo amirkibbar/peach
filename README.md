@@ -11,25 +11,25 @@ Plugin setup with gradle >= 2.1:
 
 ```gradle
     
-    plugins {
-      id "ajk.gradle.redis" version "0.0.8"
-    }
+plugins {
+  id "ajk.gradle.redis" version "0.0.9"
+}
 ``` 
 
 Plugin setup with gradle <= 2.1:
 ```gradle
 
-    buildscript {
-        repositories {
-            jcenter()
-            maven { url "http://dl.bintray.com/amirk/maven" }
-        }
-        dependencies {
-            classpath("ajk.gradle.redis:gradle-redis-plugin:0.0.8")
-        }
-    }
-    
-    apply plugin: 'ajk.gradle.redis'
+buildscript {
+  repositories {
+    jcenter()
+    maven { url "http://dl.bintray.com/amirk/maven" }
+  }
+  dependencies {
+    classpath("ajk.gradle.redis:gradle-redis-plugin:0.0.9")
+  }
+}
+
+apply plugin: 'ajk.gradle.redis'
 ```
 
 # Starting and stopping Redis during integration tests
@@ -39,44 +39,44 @@ allow the user running it to issue the `docker` command without requiring `sudo`
 
 ```gradle
 
-    task integrationTests(type: Test) {
-        reports {
-            html.destination "$buildDir/reports/integration-tests"
-        }
+task integrationTests(type: Test) {
+  reports {
+    html.destination "$buildDir/reports/integration-tests"
+  }
 
-        include "**/*IT.*"
+  include "**/*IT.*"
 
-        doFirst {
-            startRedis {
-				redisVersion = "latest"
-                port = 6379
-				dataDir = file("$buildDir/redis-$port")
-            }
-        }
-    
-        doLast {
-            stopRedis {
-                port = 6379
-            }
-        }
-        
-        systemProperties = [
-            'server.redis.port': "6379"
-        ]
+  doFirst {
+    startRedis {
+      redisVersion = "latest"
+      port = 6379
+      dataDir = file("$buildDir/redis-$port")
     }
-    
-    gradle.taskGraph.afterTask { Task task, TaskState taskState ->
-        if (task.name == "integrationTests") {
-            stopRedis {
-                port = 6379
-            }
-        }
-    }
+  }
 
-    test {
-        include '**/*Test.*'
-        exclude '**/*IT.*'
+  doLast {
+    stopRedis {
+      port = 6379
     }
+  }
+  
+  systemProperties = [
+    'server.redis.port': "6379"
+  ]
+}
+
+gradle.taskGraph.afterTask { Task task, TaskState taskState ->
+  if (task.name == "integrationTests") {
+    stopRedis {
+      port = 6379
+    }
+  }
+}
+
+test {
+  include '**/*Test.*'
+  exclude '**/*IT.*'
+}
 ```
 
 The above example shows a task called integrationTests which runs all the tests in the project with the IT suffix. The
@@ -88,9 +88,9 @@ for you they can be omitted:
 
 ```gradle
 
-    doFirst {
-        startRedis {}
-    }
+doFirst {
+  startRedis {}
+}
 ```
 
 In the doLast Redis is stopped. Note that Redis is also stopped in the gradle.taskGraph.afterTask section - this is to

@@ -9,7 +9,7 @@ import static ajk.gradle.redis.RedisPlugin.*
 class StartRedisAction {
     @Input
     @Optional
-    String redisVerion
+    String redisVersion
 
     @Input
     @Optional
@@ -30,7 +30,7 @@ class StartRedisAction {
     void execute() {
         port = port ?: 6379
         dataDir = dataDir ?: new File("$project.buildDir/redis-${port}")
-        redisVerion = redisVerion ?: 'latest'
+        redisVersion = redisVersion ?: 'latest'
 
         def pidFile = new File(project.buildDir, "redis-${port}.image-id")
         if (pidFile.exists()) {
@@ -39,7 +39,7 @@ class StartRedisAction {
             return
         }
 
-        println "${CYAN}* redis:$NORMAL starting Redis version '$redisVerion' on port $port using volume at $dataDir"
+        println "${CYAN}* redis:$NORMAL starting Redis version '$redisVersion' on port $port using volume at $dataDir"
 
         if(dataDir.exists()) {
             ant.delete(failonerror: true, dir: dataDir)
@@ -47,7 +47,7 @@ class StartRedisAction {
 
         dataDir.mkdirs()
 
-        def command = "docker run --rm -d -v $dataDir:/data -p $port:6379 redis:$redisVerion redis-server --appendonly yes"
+        def command = "docker run --rm -d -v $dataDir:/data -p $port:6379 redis:$redisVersion redis-server --appendonly yes"
 
         def sout = new StringBuilder(), serr = new StringBuilder()
         def proc = command.execute()

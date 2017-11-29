@@ -10,7 +10,7 @@ repositories {
 }
 
 group = "ajk.gradle.redis"
-version = "0.0.8"
+version = "0.0.9"
 
 String repoName = 'peach'
 
